@@ -1,0 +1,17 @@
+version: "3.2"
+
+services:
+  dev:
+    container_name: antimatter-network
+    image: paritytech/ci-linux:974ba3ac-20201006
+    working_dir: /var/www/antimatter-network
+    ports:
+      - "9944:9944"
+    environment:
+      - CARGO_HOME=/var/www/antimatter-network/.cargo
+    volumes:
+      - .:/var/www/antimatter-network
+      - type: bind
+        source: ./.local
+        target: /root/.local
+    command: bash -c "cargo build --release && ./target/release/antimatter-network --dev --ws-external"

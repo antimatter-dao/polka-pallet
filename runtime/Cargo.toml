@@ -1,0 +1,133 @@
+[package]
+authors = ['antimatter Team']
+build = 'build.rs'
+description = 'Social Network Plus DeFi'
+edition = '2018'
+homepage = 'https://antimatter.network'
+license = "Apache-2.0"
+repository = 'https://github.com/antimatter-network/antimatter-network/'
+name = 'antimatter-network-runtime'
+version = '0.0.1'
+
+[package.metadata.docs.rs]
+targets = ['x86_64-unknown-linux-gnu']
+
+[build-dependencies]
+substrate-wasm-builder = '4.0.0'
+
+# alias "parity-scale-code" to "codec"
+[dependencies.codec]
+default-features = false
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies]
+hex-literal = { optional = true, version = '0.3.1' }
+serde = { features = ['derive'], optional = true, version = '1.0.119' }
+
+orml-tokens = { default-features = false, version = "0.4.0" }
+orml-traits = { default-features = false, version = "0.4.0" }
+orml-currencies = { default-features = false, version = "0.4.0" }
+orml-oracle = { default-features = false, version = "0.4.0" }
+orml-oracle-rpc-runtime-api = { default-features = false, version = "0.4.0" }
+orml-rewards = { default-features = false, version = "0.4.0" }
+orml-utilities = { default-features = false, version = "0.4.0" }
+orml-benchmarking = { default-features = false, version = "0.4.0", optional = true }
+
+# local dependencies
+model = { package = "pallet-model", path = "../pallets/model", default-features = false }
+asset-pool = { package = "pallet-asset-pool", path = "../pallets/asset_pool", default-features = false }
+pb = { package = "pallet-pb", path = "../pallets/pb", default-features = false }
+incentives = { package = "pallet-incentives", path = "../pallets/incentives", default-features = false }
+prices = { package = "pallet-prices", path = "../pallets/prices", default-features = false }
+dex = { package = "pallet-dex", path = "../pallets/dex", default-features = false }
+
+# Substrate dependencies
+frame-benchmarking = { default-features = false, optional = true, version = '3.0.0' }
+frame-executive = { default-features = false, version = '3.0.0' }
+frame-support = { default-features = false, version = '3.0.0' }
+frame-system = { default-features = false, version = '3.0.0' }
+frame-system-benchmarking = { default-features = false, optional = true, version = '3.0.0' }
+frame-system-rpc-runtime-api = { default-features = false, version = '3.0.0' }
+pallet-aura = { default-features = false, version = '3.0.0' }
+pallet-balances = { default-features = false, version = '3.0.0' }
+pallet-grandpa = { default-features = false, version = '3.0.0' }
+pallet-randomness-collective-flip = { default-features = false, version = '3.0.0' }
+pallet-sudo = { default-features = false, version = '3.0.0' }
+pallet-timestamp = { default-features = false, version = '3.0.0' }
+pallet-transaction-payment = { default-features = false, version = '3.0.0' }
+pallet-transaction-payment-rpc-runtime-api = { default-features = false, version = '3.0.0' }
+sp-api = { default-features = false, version = '3.0.0' }
+sp-block-builder = { default-features = false, version = '3.0.0' }
+sp-consensus-aura = { default-features = false, version = '0.9.0' }
+sp-core = { default-features = false, version = '3.0.0' }
+sp-inherents = { default-features = false, version = '3.0.0' }
+sp-offchain = { default-features = false, version = '3.0.0' }
+sp-runtime = { default-features = false, version = '3.0.0' }
+sp-session = { default-features = false, version = '3.0.0' }
+sp-std = { default-features = false, version = '3.0.0' }
+sp-transaction-pool = { default-features = false, version = '3.0.0' }
+sp-version = { default-features = false, version = '3.0.0' }
+sp-io = { default-features = false, version = '3.0.0' }
+pallet-membership = { version = "3.0.0", default-features = false }
+pallet-scheduler = { default-features = false, version = '3.0.0' }
+
+[features]
+default = ['std']
+runtime-benchmarks = [
+    'hex-literal',
+    'frame-benchmarking',
+    'frame-support/runtime-benchmarks',
+    'frame-system-benchmarking',
+    'frame-system/runtime-benchmarks',
+    'pallet-balances/runtime-benchmarks',
+    'pallet-timestamp/runtime-benchmarks',
+    'sp-runtime/runtime-benchmarks',
+    "orml-benchmarking",
+    "pb/runtime-benchmarks",
+]
+std = [
+    'codec/std',
+    'serde',
+    'frame-executive/std',
+    'frame-support/std',
+    'frame-system/std',
+    'frame-system-rpc-runtime-api/std',
+    'pallet-aura/std',
+    'pallet-balances/std',
+    'pallet-grandpa/std',
+    'pallet-randomness-collective-flip/std',
+    'pallet-sudo/std',
+    'pallet-timestamp/std',
+    'pallet-transaction-payment/std',
+    'pallet-transaction-payment-rpc-runtime-api/std',
+    'sp-api/std',
+    'sp-block-builder/std',
+    'sp-consensus-aura/std',
+    'sp-core/std',
+    'sp-inherents/std',
+    'sp-offchain/std',
+    'sp-runtime/std',
+    'sp-session/std',
+    'sp-std/std',
+    'sp-transaction-pool/std',
+    'sp-version/std',
+    'sp-io/std',
+    'orml-tokens/std',
+    'orml-traits/std',
+    'orml-currencies/std',
+    'orml-rewards/std',
+    'orml-oracle/std',
+    "orml-oracle-rpc-runtime-api/std",
+    "orml-benchmarking/std",
+    "orml-utilities/std",
+    "pallet-membership/std",
+    'pallet-scheduler/std',
+    'asset-pool/std',
+    'model/std',
+    'pb/std',
+    'incentives/std',
+    'prices/std',
+    'dex/std',
+]
