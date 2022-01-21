@@ -832,4 +832,59 @@ impl<T: Config> Pallet<T> {
 		}
 	}
 
+	#[transactional]
+	fn do_swap_with_exact_supply(
+		who: &T::AccountId,
+		path: &[CurrencyId],
+		supply_amount: Balance,
+		min_target_amount: Balance,
+		price_impact_limit: Option<Ratio>,
+	) -> sp_std::result::Result<Balance, DispatchError> {
+		let amounts = Self::get_target_amounts(&path, supply_amount, price_impact_limit)?;
+		ensure!(
+			amounts[amounts.len() - 1] >= min_target_amount,
+			Error::<T>::InsufficientTargetAmount
+		);
+		let module_account_id = Self::account_id();
+		let actual_target_amount = amounts[amounts.len() - 1];
+
+		T::Currency::transfer(path[0], who, &module_account_id, supply_amount)?;
+		Self::_swap_by_path(&path, &amounts);
+		T::Currency::transfer(path[path.len() - 1], &module_account_id, who, actual_target_amount)?;
+
+		Self::deposit_event(Event::Swap(
+			who.clone(),
+			path.to_vec(),
+			supply_amount,
+			actual_target_amount,
+		));
+		Ok(actual_target_amount)
+	}
+
+	#[transactional]
+	fn do_swap_with_exact_target(
+		who: &T::AccountId,
+		path: &[CurrencyId],
+		target_amount: Balance,
+		max_supply_amount: Balance,
+		price_impact_limit: Option<Ratio>,
+	) -> sp_std::result::Result<Balance, DispatchError> {
+		let amounts = Self::get_supply_amounts(&path, target_amount, price_impact_limit)?;
+		ensure!(amounts[0] <= max_supply_amount, Error::<T>::ExcessiveSupplyAmount);
+		let module_account_id = Self::account_id();
+		let actual_supply_amount = amounts[0];
+
+		T::Currency::transfer(path[0], who, &module_account_id, actual_supply_amount)?;
+		Self::_swap_by_path(&path, &amounts);
+		T::Currency::transfer(path[path.len() - 1], &module_account_id, who, target_amount)?;
+
+		Self::deposit_event(Event::Swap(
+			who.clone(),
+			path.to_vec(),
+			actual_supply_amount,
+			target_amount,
+		));
+		Ok(actual_supply_amount)
+	}
+
 }
