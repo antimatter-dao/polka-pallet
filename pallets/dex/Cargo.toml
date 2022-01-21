@@ -1,0 +1,44 @@
+[package]
+authors = ['antimatter Team']
+description = 'Social Network Plus DeFi'
+edition = '2018'
+homepage = 'https://antimatter.network'
+license = "Apache-2.0"
+repository = 'https://github.com/antimatter-network/antimatter-network/'
+name = "pallet-dex"
+version = "0.0.1"
+
+[dependencies]
+serde = { version = "1.0.111", optional = true }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+sp-std = { version = "3.0.0", default-features = false }
+sp-core = { version = "3.0.0", default-features = false }
+sp-runtime = { version = "3.0.0", default-features = false }
+
+frame-support = { version = "3.0.0", default-features = false }
+frame-system = { version = "3.0.0", default-features = false }
+
+orml-traits = { default-features = false, version = "0.4.0" }
+orml-tokens = { default-features = false, version = "0.4.0" }
+
+model = { package = "pallet-model", path = "../model", default-features = false }
+
+[dev-dependencies]
+sp-io = "3.0.0"
+sp-core = "3.0.0"
+pallet-balances = "3.0.0"
+orml-currencies = "0.4.0"
+
+[features]
+default = ["std"]
+std = [
+    "serde",
+    "codec/std",
+    "sp-std/std",
+    "sp-core/std",
+    "sp-runtime/std",
+    "frame-support/std",
+    "frame-system/std",
+    "orml-traits/std",
+    "model/std",
+]
