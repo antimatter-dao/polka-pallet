@@ -1,6 +1,6 @@
 <!--
 
-Thank you for contributing to TiDB!
+Thank you for contributing to Antimatter!
 
 PR Title Format:
 1. pkg [, pkg2, pkg3]: what's changed
